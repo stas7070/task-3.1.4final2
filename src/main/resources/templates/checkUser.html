@@ -8,7 +8,6 @@
 <table th:border="1">
     <thead>
     <tr>
-        <th>Id</th>
         <th>Name</th>
         <th>lastName</th>
         <th>Email</th>
@@ -17,16 +16,17 @@
     </thead>
     <tbody>
     <tr th:each="user : ${user}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.name}"></td>
+        <td th:text="${user.getName}"></td>
         <td th:text="${user.lastName}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.roles}"></td>
     </tr>
     </tbody>
 </table>
+<input type="submit" href="#" onclick="history.back();return false;" class="history-back" value="Back"/>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+
 </body>
 </html>
