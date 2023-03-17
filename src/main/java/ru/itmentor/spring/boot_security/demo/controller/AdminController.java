@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.itmentor.spring.boot_security.demo.model.User;
 import ru.itmentor.spring.boot_security.demo.service.RoleService;
 import ru.itmentor.spring.boot_security.demo.service.UserService;
-
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -23,39 +23,47 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping
-    public String getAllUsers(Model model){
-        model.addAttribute("users", userService.getAllUsers());
-        return "admin";
-    }
 
-    @GetMapping("/new")
+
+    /*@GetMapping("/new")
     public String addUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
         return "create";
     }
-
-    @PostMapping
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("authorities") List<String> values){
-        user.setRoles(roleService.listRole(values));
-        userService.save(user);
-        return "redirect:/admin";
-    }
-
     @GetMapping("/{id}/update")
     public String updateUser(@PathVariable("id") Long id, Model model){
         model.addAttribute("user", userService.getUserById(id));
         model.addAttribute("roles", roleService.getAllRoles());
         return "update";
+    }*/
+
+
+
+
+
+    @GetMapping
+    public String getAllUsers(Model model, Principal principal){
+        model.addAttribute("admin", userService.getUserByEmail(principal.getName()));
+        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("user", new User());
+        return "admin";
+    }
+    @PostMapping("/create")
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("listRoles") List<String> values){
+        user.listRoles(roleService.listRole(values));
+        userService.save(user);
+        return "redirect:/admin";
     }
 
-    @RequestMapping("/editUser/{id}")
-    public String editUser(@PathVariable("id") Long id,
+    @RequestMapping("/updateUser/{id}")
+    public String updateUser(@PathVariable("id") Long id,
                        @ModelAttribute("user") User user,
-                       @RequestParam("authorities") List<String> values){
+                       @RequestParam("listRoles") List<String> values){
         user.setRoles(roleService.listRole(values));
         userService.updateUser(id, user);
+        System.out.println(user.getName());
         return "redirect:/admin";
     }
 
@@ -63,12 +71,5 @@ public class AdminController {
     public String deleteUserById(@PathVariable Long id){
         userService.deleteUserById(id);
         return "redirect:/admin";
-    }
-
-    @GetMapping("/{id}/check")
-    public String checkUser(@PathVariable("id") Long id, Model model){
-        User user = userService.getUserById(id);
-        model.addAttribute("user", userService.getUserById(id));
-        return "checkUser";
     }
 }

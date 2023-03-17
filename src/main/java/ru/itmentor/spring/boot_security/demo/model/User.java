@@ -37,7 +37,7 @@ public class User implements UserDetails {
     @Getter
     private List<Role> roles;
 
-    public void setRoles(List<Role> roles) {
+    public void listRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -84,4 +84,25 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
 }
+

@@ -20,6 +20,7 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "name")
     private String name;
+
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
@@ -41,6 +42,11 @@ public class Role implements GrantedAuthority {
     }
 
     public String getRole() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
         return name;
     }
 }
