@@ -23,25 +23,6 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-
-
-    /*@GetMapping("/new")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "create";
-    }
-    @GetMapping("/{id}/update")
-    public String updateUser(@PathVariable("id") Long id, Model model){
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "update";
-    }*/
-
-
-
-
-
     @GetMapping
     public String getAllUsers(Model model, Principal principal){
         model.addAttribute("admin", userService.getUserByEmail(principal.getName()));
