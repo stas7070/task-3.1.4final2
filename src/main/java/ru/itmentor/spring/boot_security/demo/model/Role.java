@@ -1,12 +1,9 @@
 package ru.itmentor.spring.boot_security.demo.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.List;
-
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -14,35 +11,38 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter
-    @Getter
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "role")
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
     @Override
     public String getAuthority() {
-        return getRole();
+        return name;
     }
 
     public Role(){
     }
 
-    public Role(String name, List<User> users) {
+    public Role(String name, Set<User> users) {
         this.name = name;
-        this.users = users;
     }
 
-    public String getRole() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
         return name;
+    }
+
+    public void setRoleName(String name) {
+        this.name = name;
     }
 
     @Override

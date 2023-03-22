@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.itmentor.spring.boot_security.demo.model.Role;
 import ru.itmentor.spring.boot_security.demo.repository.RoleRepository;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,23 +22,7 @@ public class RoleServiceImp implements RoleService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Role> getAllRoles() {
+    public List<Role> getAllRole() {
         return roleRepository.findAll();
-    }
-
-    @Transactional
-    @Override
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).orElse(null);
-    }
-
-    @Transactional
-    @Override
-    public List<Role> listRole(List<String> rolesId) {
-        List<Role> roleList = new ArrayList<>();
-        for (String id: rolesId) {
-            roleList.add(getRoleById(Long.parseLong(id)));
-        }
-        return roleList;
     }
 }
