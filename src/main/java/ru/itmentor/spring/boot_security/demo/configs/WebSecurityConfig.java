@@ -17,11 +17,12 @@ import ru.itmentor.spring.boot_security.demo.service.UserServiceImp;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     private final UserServiceImp userService;
-
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImp userService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImp userService, PasswordEncoder passwordEncoder) {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -40,19 +41,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-    }
-
-    @Bean
-    @Lazy
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        authenticationProvider.setUserDetailsService(userService);
-        return authenticationProvider;
     }
 }
